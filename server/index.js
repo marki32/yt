@@ -5,7 +5,13 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-app.use(cors());
+
+// Simple CORS setup
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS']
+}));
+
 app.use(express.json());
 
 const TEMP_DIR = path.join(__dirname, 'temp');
