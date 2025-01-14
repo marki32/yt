@@ -5,14 +5,11 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-
-// Simple CORS setup
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'OPTIONS']
-}));
-
+app.use(cors());
 app.use(express.json());
+
+// Serve static files from the React/Vite app
+app.use(express.static(path.join(__dirname, '../dist')));
 
 const TEMP_DIR = path.join(__dirname, 'temp');
 if (!fs.existsSync(TEMP_DIR)) {
@@ -104,6 +101,27 @@ app.post('/download', async (req, res) => {
             details: error.message 
         });
     }
+});
+
+// Handle CORS preflight
+app.options('*', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.sendStatus(200);
+});
+
+// Enable CORS for all routes
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
+// Handle React/Vite app routing
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 const PORT = 3001;

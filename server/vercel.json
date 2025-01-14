@@ -4,13 +4,23 @@
     {
       "src": "index.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "../package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     }
   ],
   "routes": [
     {
+      "src": "/download",
+      "dest": "index.js"
+    },
+    {
       "src": "/(.*)",
-      "dest": "index.js",
-      "methods": ["GET", "POST", "OPTIONS"]
+      "dest": "/$1"
     }
   ]
 }
