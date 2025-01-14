@@ -8,15 +8,6 @@
   ],
   "routes": [
     {
-      "src": "/.*",
-      "headers": {
-        "Access-Control-Allow-Origin": "https://yt-zq8kknk.vercel.app",
-        "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Credentials": "true"
-      }
-    },
-    {
       "src": "/(.*)",
       "dest": "index.js"
     }

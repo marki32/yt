@@ -5,18 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-
-// Updated CORS configuration with correct frontend domain
-app.use(cors({
-  origin: ['https://yt-zq8kknk.vercel.app', 'http://localhost:5173'],
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
-  credentials: true
-}));
-
-// Handle OPTIONS preflight requests
-app.options('*', cors());
-
+app.use(cors());
 app.use(express.json());
 
 const TEMP_DIR = path.join(__dirname, 'temp');
