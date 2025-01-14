@@ -91,7 +91,9 @@ const VideoDownloader = () => {
   const handleDownload = async () => {
     try {
       setDownloading(true);
-      const response = await fetch(`${API_URL}/download`, {
+      const downloadUrl = `${API_URL}/download`;
+      console.log('Calling URL:', downloadUrl);
+      const response = await fetch(downloadUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
