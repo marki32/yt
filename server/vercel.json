@@ -8,15 +8,17 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "index.js",
-      "methods": ["GET", "POST", "OPTIONS"],
+      "src": "/.*",
       "headers": {
-        "Access-Control-Allow-Origin": "https://yt-zq8kknk-eknen00ho-mas-projects-98328f16.vercel.app",
+        "Access-Control-Allow-Origin": "https://yt-zq8kknk.vercel.app",
         "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Credentials": "true"
       }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "index.js"
     }
   ]
 }
