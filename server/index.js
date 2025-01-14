@@ -27,7 +27,8 @@ const updateYtDlp = () => {
     }
 };
 
-app.post('/download', async (req, res) => {
+// Move all API routes under /api
+app.post('/api/download', async (req, res) => {
     const { url, formatId } = req.body;
     if (!url || !formatId) {
         return res.status(400).json({ error: 'URL and format ID are required' });
@@ -119,7 +120,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Handle React/Vite app routing
+// Serve index.html for all other routes
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
 });

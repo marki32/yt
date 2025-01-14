@@ -15,12 +15,12 @@
   ],
   "routes": [
     {
-      "src": "/download",
+      "src": "/api/(.*)",
       "dest": "index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/index.html"
     }
   ]
 }
