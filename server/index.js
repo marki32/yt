@@ -5,7 +5,15 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-app.use(cors());
+
+// Updated CORS configuration
+app.use(cors({
+  origin: ['https://yt-zq8kknk-eknen00ho-mas-projects-98328f16.vercel.app', 'http://localhost:5173'],
+  methods: ['GET', 'POST'],
+  credentials: true,
+  optionsSuccessStatus: 204
+}));
+
 app.use(express.json());
 
 const TEMP_DIR = path.join(__dirname, 'temp');
