@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -17,12 +17,11 @@ const QUALITY_OPTIONS = [
   { label: '4K Ultra HD', value: '313+140', resolution: '2160p' },
   { label: '2K Quad HD', value: '271+140', resolution: '1440p' },
   { label: 'Full HD', value: '137+140', resolution: '1080p' },
-  { label: 'HD', value: '22', resolution: '720p' },
-  { label: 'SD', value: '135+140', resolution: '480p' },
-  { label: '360p', value: '18', resolution: '360p' },
+  { label: 'HD', value: '136+140', resolution: '720p' },
+  { label: 'SD', value: '135+140', resolution: '480p' }
 ];
 
-const VideoDownloader = () => {
+const VideoDownloader: React.FC = () => {
   const [url, setUrl] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -30,6 +29,7 @@ const VideoDownloader = () => {
   const [selectedQuality, setSelectedQuality] = useState(QUALITY_OPTIONS[2].value);
   const [downloading, setDownloading] = useState(false);
   const [searching, setSearching] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
 
   const getVideoId = (url: string) => {
@@ -91,9 +91,10 @@ const VideoDownloader = () => {
   const handleDownload = async () => {
     try {
       setDownloading(true);
-      const downloadUrl = `${API_URL}/download`;
-      console.log('Calling URL:', downloadUrl);
-      const response = await fetch(downloadUrl, {
+      setError(null);
+      console.log('Calling URL:', `${API_URL}/download`);
+      
+      const response = await fetch(`${API_URL}/download`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +107,7 @@ const VideoDownloader = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.details || 'Download failed');
+        throw new Error(errorData.error || 'Download failed');
       }
 
       const blob = await response.blob();
@@ -120,7 +121,7 @@ const VideoDownloader = () => {
       document.body.removeChild(a);
     } catch (error) {
       console.error('Download error:', error);
-      alert(`Download failed: ${error.message}`);
+      setError(error instanceof Error ? error.message : 'Download failed');
     } finally {
       setDownloading(false);
     }
@@ -238,6 +239,9 @@ const VideoDownloader = () => {
                         'Download Video'
                       )}
                     </Button>
+                    {error && (
+                      <p className="text-red-500">{error}</p>
+                    )}
                   </div>
                 </div>
               </div>
